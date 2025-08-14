@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Card Drawer</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main container with styling -->
+    <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-lg w-full">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">Your Card for Today</h1>
+        <p class="text-lg text-gray-600 mb-8">
+            Click the button below to draw a random card from the deck.
+        </p>
+
+        <!-- Card display area -->
+        <div id="card-container" class="bg-gray-100 rounded-xl p-4 sm:p-6 mb-8 flex items-center justify-center min-h-[300px]">
+            <!-- The random card image will be inserted here by the JavaScript -->
+            <img id="card-image" class="w-full h-auto rounded-xl shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105" alt="A randomly drawn card">
+        </div>
+
+        <!-- Button to draw a new card -->
+        <button id="draw-button" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+            Draw a New Card
+        </button>
+    </div>
+
+    <script>
+        // An array to hold the URLs of the card images
+        let deck = [];
+
+        // === CONFIGURATION FOR YOUR CARDS ===
+        // 1. Set the base URL where your images are hosted.
+        //    For GitHub Pages, it would be a relative path to your images folder.
+        //    Example: "./images/"
+        const baseUrl = "./images/";
+
+        // 2. Set the total number of cards you have.
+        const totalCards = 140;
+
+        // 3. Set the image file extension. (e.g., "jpg", "jpeg", "png")
+        const fileExtension = "jpg";
+
+        // This function dynamically creates the array of image URLs
+        function createDeck() {
+            for (let i = 1; i <= totalCards; i++) {
+                // Build the URL for each card using the base path and file name
+                const imageUrl = `${baseUrl}card${i}.${fileExtension}`;
+                deck.push(imageUrl);
+            }
+        }
+        
+        // Build the deck array on page load
+        createDeck();
+
+        // Get references to the HTML elements
+        const cardImage = document.getElementById('card-image');
+        const drawButton = document.getElementById('draw-button');
+
+        // Function to select and display a random card
+        function drawRandomCard() {
+            // Get a random index from the deck array
+            const randomIndex = Math.floor(Math.random() * deck.length);
+
+            // Get the image URL at the random index
+            const randomCardUrl = deck[randomIndex];
+
+            // Set the image src
+            cardImage.src = randomCardUrl;
+        }
+
+        // Add a click event listener to the button
+        drawButton.addEventListener('click', drawRandomCard);
+
+        // Draw a random card immediately when the page loads
+        window.addEventListener('load', drawRandomCard);
+    </script>
+
+</body>
+</html>
